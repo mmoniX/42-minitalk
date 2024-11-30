@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:20:07 by mmonika           #+#    #+#             */
-/*   Updated: 2024/11/24 15:30:31 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/11/30 17:13:25 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sig_handler(int mysignal)
 	static char	c = 0;
 	static int	i = 0;
 
-	c = (c << 1) | (mysignal == SIGUSR1);
+	c = (c << 1) | (mysignal == SIGUSR2);
 	i++;
 	if (i == 8)
 	{

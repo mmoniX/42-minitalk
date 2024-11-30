@@ -6,12 +6,13 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 19:21:59 by mmonika           #+#    #+#             */
-/*   Updated: 2024/11/25 13:29:34 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/11/30 17:17:02 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <signal.h>
+#include <stdlib.h>
 #include "ft_printf/ft_printf.h"
 
 int	ft_atoi(const char *str)
@@ -40,6 +41,16 @@ int	ft_atoi(const char *str)
 	return (sign * num);
 }
 
+size_t	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+		i++;
+	return (i);
+}
+
 int	check_pid(pid_t server_pid)
 {
 	if (kill(server_pid, SIGUSR2) == -1)
@@ -50,26 +61,34 @@ int	check_pid(pid_t server_pid)
 	return (1);
 }
 
-void	send_bit(pid_t server_pid, char c)
+void	send_bit(pid_t server_pid, char *text, size_t len)
 {
 	int		bit;
+	size_t	i;
 
-	bit = 7;
-	while (bit >= 0)
+	// bit = 7;
+	i = 0;
+	while (i <= len)
 	{
-		if ((c >> bit) & 1)
-			kill(server_pid, SIGUSR1);
-		else
-			kill(server_pid, SIGUSR2);
-		usleep(100);
-		bit--;
+		bit = 0;
+		while (bit < 8)
+		{
+			if ((text[i] >> bit) & 1)
+				kill(server_pid, SIGUSR2);
+			else
+				kill(server_pid, SIGUSR1);
+			bit++;
+			usleep(300);
+		}
+		i++;
 	}
 }
 
 int	main(int argc, char *argv[])
 {
-	int	server_pid;
-	int	i;
+	int		server_pid;
+	char	*text;
+	size_t	len;
 
 	if (argc != 3)
 	{
@@ -77,15 +96,12 @@ int	main(int argc, char *argv[])
 		exit(0);
 	}
 	server_pid = ft_atoi(argv[1]);
-	i = 0;
+	text = argv[2];
+	len = ft_strlen(text);
 	if (check_pid(server_pid) == 1)
 	{
-		while (argv[2][i])
-		{
-			send_bit(server_pid, argv[2][i]);
-			i++;
-		}
-		send_bit(server_pid, '\0');
+		send_bit(server_pid, text, len);
+		send_bit(server_pid, "\0", 1);
 	}
 	return (0);
 }
