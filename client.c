@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 19:21:59 by mmonika           #+#    #+#             */
-/*   Updated: 2024/12/01 15:05:11 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:22:08 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		ft_printf ("\033[1;31myou need three arguments. Try again.\033[0m");
+		ft_printf ("\e[1;31myou need three arguments. Try again.\e[0m\n");
+		ft_printf ("\e[1;31m<./client> <PID> <message>\e[0m");
 		exit(0);
 	}
 	return (0);

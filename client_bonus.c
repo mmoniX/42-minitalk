@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:43:09 by mmonika           #+#    #+#             */
-/*   Updated: 2024/12/01 15:08:09 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:23:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	sigcon_handler(int mysignal)
 {
 	if (mysignal == SIGUSR1)
-		ft_printf("\033[1;32mThank you for your message 😊\033[0m\n");
+		ft_printf("\e[1;32mThank you for your message 😊\e[0m\n");
 	exit(0);
 }
 
@@ -37,7 +37,8 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		ft_printf ("\033[1;31myou need three arguments. Try again.\033[0m");
+		ft_printf ("\e[1;31myou need three arguments. Try again.\e[0m\n");
+		ft_printf ("\e[1;31m<./client_bonus> <PID> <message>\e[0m");
 		exit(0);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 14:56:39 by mmonika           #+#    #+#             */
-/*   Updated: 2024/12/01 15:22:53 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/01 17:21:35 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_pid(pid_t server_pid)
 {
 	if (kill(server_pid, SIGUSR2) == -1)
 	{
-		ft_printf("\033[1;31mwrong pid. type carefully...\033[0m\n");
+		ft_printf("\e[1;31mwrong pid. type carefully...\e[0m\n");
 		exit (0);
 	}
 	return (1);

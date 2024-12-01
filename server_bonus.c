@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:47:36 by mmonika           #+#    #+#             */
-/*   Updated: 2024/12/01 15:15:06 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/01 16:58:35 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	sig_handler(int mysignal, siginfo_t *info, void *context)
 		{
 			kill(info->si_pid, SIGUSR1);
 			ft_printf("\n");
+			ft_printf("-----------------------------\n");
+			ft_printf("\e[1;33mPID: %d\e[0m\n", getpid());
 		}
 		else
 			ft_printf("%c", c);
@@ -43,7 +45,7 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	ft_printf("\033[1;32mHi! welcome to my terminal 😊\033[0m\n");
+	ft_printf("\e[1;32mHi! welcome to my terminal 😊\e[0m\n");
 	ft_printf("PID : %d\n", getpid());
 	while (1)
 		pause();
