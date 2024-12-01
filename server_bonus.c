@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:47:36 by mmonika           #+#    #+#             */
-/*   Updated: 2024/11/25 16:37:23 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/01 15:15:06 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
-#include "ft_printf/ft_printf.h"
+#include "mini.h"
 
-void	sig_handler(int mysignal, siginfo_t *info, void *context)
+static void	sig_handler(int mysignal, siginfo_t *info, void *context)
 {
 	static char	c = 0;
 	static int	i = 0;
@@ -25,16 +23,15 @@ void	sig_handler(int mysignal, siginfo_t *info, void *context)
 	if (i == 8)
 	{
 		if (c == '\0')
+		{
+			kill(info->si_pid, SIGUSR1);
 			ft_printf("\n");
+		}
 		else
 			ft_printf("%c", c);
 		i = 0;
 		c = 0;
 	}
-	if (mysignal == SIGUSR1)
-		kill(info->si_pid, SIGUSR1);
-	else if (mysignal == SIGUSR2)
-		kill(info->si_pid, SIGUSR2);
 }
 
 int	main(void)
@@ -46,7 +43,8 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	printf("Hi! welcome to my terminal :D \nMy PID is: %d\n", getpid());
+	ft_printf("\033[1;32mHi! welcome to my terminal 😊\033[0m\n");
+	ft_printf("PID : %d\n", getpid());
 	while (1)
 		pause();
 	return (0);

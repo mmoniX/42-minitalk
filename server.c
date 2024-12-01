@@ -6,20 +6,18 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:20:07 by mmonika           #+#    #+#             */
-/*   Updated: 2024/11/30 17:13:25 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/01 15:13:00 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
-#include "ft_printf/ft_printf.h"
+#include "mini.h"
 
-void	sig_handler(int mysignal)
+static void	sig_handler(int mysignal)
 {
 	static char	c = 0;
 	static int	i = 0;
 
-	c = (c << 1) | (mysignal == SIGUSR2);
+	c = (c << 1) | (mysignal == SIGUSR1);
 	i++;
 	if (i == 8)
 	{
@@ -41,7 +39,8 @@ int	main(void)
 	sa.sa_flags = 0;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	ft_printf("Hi! welcome to my terminal :D \nMy PID is: %d\n", getpid());
+	ft_printf("\033[1;32mHi! welcome to my terminal 😊\033[0m\n");
+	ft_printf("PID : %d\n", getpid());
 	while (1)
 		pause();
 	return (0);

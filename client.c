@@ -6,102 +6,26 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 19:21:59 by mmonika           #+#    #+#             */
-/*   Updated: 2024/11/30 17:17:02 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/01 15:05:11 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
-#include <stdlib.h>
-#include "ft_printf/ft_printf.h"
-
-int	ft_atoi(const char *str)
-{
-	int	i;
-	int	num;
-	int	sign;
-
-	i = 0;
-	num = 0;
-	sign = 1;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-')
-	{
-		sign = -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		num = num * 10 + (str[i] - '0');
-		i++;
-	}
-	return (sign * num);
-}
-
-size_t	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-		i++;
-	return (i);
-}
-
-int	check_pid(pid_t server_pid)
-{
-	if (kill(server_pid, SIGUSR2) == -1)
-	{
-		ft_printf("wrong pid. type carefully...\n");
-		exit (0);
-	}
-	return (1);
-}
-
-void	send_bit(pid_t server_pid, char *text, size_t len)
-{
-	int		bit;
-	size_t	i;
-
-	// bit = 7;
-	i = 0;
-	while (i <= len)
-	{
-		bit = 0;
-		while (bit < 8)
-		{
-			if ((text[i] >> bit) & 1)
-				kill(server_pid, SIGUSR2);
-			else
-				kill(server_pid, SIGUSR1);
-			bit++;
-			usleep(300);
-		}
-		i++;
-	}
-}
+#include "mini.h"
 
 int	main(int argc, char *argv[])
 {
 	int		server_pid;
-	char	*text;
-	size_t	len;
 
-	if (argc != 3)
+	if (argc == 3 && argv[2][0] != '\0')
 	{
-		ft_printf ("you need three arguments. Try again.");
-		exit(0);
+		server_pid = ft_atoi(argv[1]);
+		if (check_pid(server_pid) == 1)
+			send_bit(server_pid, argv[2]);
 	}
-	server_pid = ft_atoi(argv[1]);
-	text = argv[2];
-	len = ft_strlen(text);
-	if (check_pid(server_pid) == 1)
+	else
 	{
-		send_bit(server_pid, text, len);
-		send_bit(server_pid, "\0", 1);
+		ft_printf ("\033[1;31myou need three arguments. Try again.\033[0m");
+		exit(0);
 	}
 	return (0);
 }
