@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:47:36 by mmonika           #+#    #+#             */
-/*   Updated: 2024/12/01 18:03:24 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/06 16:07:22 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	sig_handler(int mysignal, siginfo_t *info, void *context)
 		i = 0;
 		c = 0;
 	}
+	// usleep(100);
 }
 
 int	main(void)

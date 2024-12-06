@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 14:56:39 by mmonika           #+#    #+#             */
-/*   Updated: 2024/12/01 17:21:35 by mmonika          ###   ########.fr       */
+/*   Updated: 2024/12/06 15:53:18 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_bit(pid_t server_pid, char c)
 			kill(server_pid, SIGUSR1);
 		else
 			kill(server_pid, SIGUSR2);
-		usleep(100);
+		usleep(150);
 		bit--;
 	}
 }
