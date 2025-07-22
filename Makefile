@@ -1,35 +1,51 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-PRINTF_PATH = ft_printf
-PRINTF_ARCHIVE = $(PRINTF_PATH)/libftprintf.a
+CFLAGS = -Wall -Wextra -Werror -I42-printf
 
+OBJ_DIR = obj
 C_SRC =	client.c utils.c
 S_SRC =	server.c
-
-C_OBJ = $(C_SRC:.c=.o)
-S_OBJ = $(S_SRC:.c=.o)
+C_OBJ = $(C_SRC:%.c=$(OBJ_DIR)/%.o)
+S_OBJ = $(S_SRC:%.c=$(OBJ_DIR)/%.o)
 
 C_NAME = client
 S_NAME = server
 
-all: $(C_NAME) $(S_NAME)
-bonus:	all
+PRINTF_DIR = 42-printf
+PRINTF = $(PRINTF_DIR)/libftprintf.a
 
-$(C_NAME): $(C_OBJ) $(PRINTF_ARCHIVE)
-	$(CC) $(CFLAGS) -o $(C_NAME) $(C_OBJ) $(PRINTF_ARCHIVE)
+all: $(PRINTF) $(C_NAME) $(S_NAME)
 
-$(S_NAME): $(S_OBJ) $(PRINTF_ARCHIVE)
-	$(CC) $(CFLAGS) -o $(S_NAME) $(S_OBJ) $(PRINTF_ARCHIVE)
+$(PRINTF_DIR):
+	git clone https://github.com/mmoniX/42-printf.git
 
-$(PRINTF_ARCHIVE):
-	$(MAKE) -C $(PRINTF_PATH) all
+$(PRINTF): $(PRINTF_DIR)
+	@echo "\033[34m🔄 Loading....\033[0m"
+	@$(MAKE) -C $(PRINTF_DIR)
+
+$(OBJ_DIR)/%.o: %.c
+	@mkdir	-p	$(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(C_NAME): $(C_OBJ) $(PRINTF)
+	@$(CC) $(CFLAGS) -o $(C_NAME) $(C_OBJ) $(PRINTF)
+
+$(S_NAME): $(S_OBJ) $(PRINTF)
+	@$(CC) $(CFLAGS) -o $(S_NAME) $(S_OBJ) $(PRINTF)
+	@echo "\033[32m🚀 Program is ready to execute\033[0m"
+	@echo "\033[33mPlease call the SERVER first\033[0m"
 
 clean:
-	$(MAKE) -C $(PRINTF_PATH) clean
-	rm -f $(C_OBJ) $(S_OBJ)
+	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@$(MAKE) -C $(PRINTF_DIR) fclean
+	@echo "\033[31mProgram removed\033[0m"
 
 fclean: clean
-	$(MAKE) -C $(PRINTF_PATH) fclean
-	rm -f $(C_NAME) $(S_NAME)
+	@rm -f $(C_NAME) $(S_NAME)
+	@rm -f $(PRINTF)
 
 re: fclean all
+
+bonus:	all
+
+.PHONY: all clean fclean re

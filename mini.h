@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 14:54:07 by mmonika           #+#    #+#             */
-/*   Updated: 2024/12/06 16:06:05 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/07/22 20:07:13 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
-# include "ft_printf/ft_printf.h"
+# include "42-printf/ft_printf.h"
 
 int		ft_atoi(const char *str);
 int		check_pid(pid_t server_pid);
